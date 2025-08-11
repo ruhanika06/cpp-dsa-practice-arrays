@@ -1,0 +1,296 @@
+//q-1
+
+#include <iostream>
+using namespace std;
+
+// Binary Search function returns index if found, else -1
+int binarySearch(int arr[], int n, int key) {
+    int left = 0, right = n - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2; // prevents overflow
+
+        if (arr[mid] == key) {
+            return mid;  // found key at mid
+        } 
+        else if (arr[mid] < key) {
+            left = mid + 1;  // search right half
+        } 
+        else {
+            right = mid - 1;  // search left half
+        }
+    }
+    return -1;  // key not found
+}
+
+int main() {
+    int arr[100], n, key;
+
+    cout << "Enter number of elements (sorted array): ";
+    cin >> n;
+    cout << "Enter " << n << " elements in ascending order:\n";
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    cout << "Enter value to search: ";
+    cin >> key;
+
+    int result = binarySearch(arr, n, key);
+    if (result != -1) {
+        cout << "Element found at position " << result + 1 << ".\n";
+    } else {
+        cout << "Element not found in the array.\n";
+    }
+
+    return 0;
+}
+
+
+//Q-2
+
+#include <iostream>
+using namespace std;
+
+void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        // Last i elements are already sorted
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                // Swap adjacent elements if in wrong order
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    cout << "Original array: ";
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+
+    bubbleSort(arr, n);
+
+    cout << "Sorted array:   ";
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+
+    return 0;
+}
+
+
+//Q-3
+
+#include <iostream>
+using namespace std;
+
+int findMissingLinear(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        if (arr[i] != i + 1) {
+            return i + 1; // missing number
+        }
+    }
+    return n; // if no mismatch found, missing is n
+}
+
+int main() {
+    int arr[] = {1, 2, 3, 4, 6, 7, 8};
+    int n = sizeof(arr) / sizeof(arr[0]) + 1; // n = array size + 1
+
+    int missing = findMissingLinear(arr, n);
+    cout << "Missing number (Linear): " << missing << endl;
+
+    return 0;
+}
+
+//binary search approach
+
+#include <iostream>
+using namespace std;
+
+int findMissingBinary(int arr[], int low, int high) {
+    if (low > high) {
+        return high + 2; // missing number
+    }
+
+    int mid = low + (high - low) / 2;
+
+    // If element matches index+1, missing number is in right half
+    if (arr[mid] == mid + 1) {
+        return findMissingBinary(arr, mid + 1, high);
+    } else {
+        // Else missing number is in left half
+        return findMissingBinary(arr, low, mid - 1);
+    }
+}
+
+int main() {
+    int arr[] = {1, 2, 3, 4, 6, 7, 8};
+    int n = sizeof(arr) / sizeof(arr[0]) + 1; // n = array size + 1
+
+    int missing = findMissingBinary(arr, 0, n - 2);
+    cout << "Missing number (Binary Search): " << missing << endl;
+
+    return 0;
+}
+
+//Q-4
+
+//Concatenate one string to another
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string str1, str2;
+
+    cout << "Enter first string: ";
+    getline(cin, str1);
+
+    cout << "Enter second string: ";
+    getline(cin, str2);
+
+    // Concatenate str2 to str1
+    str1 = str1 + str2;
+
+    cout << "Concatenated string: " << str1 << endl;
+
+    return 0;
+}
+
+
+
+//reverse string
+#include <iostream>
+using namespace std;
+
+void reverseString(char str[]) {
+    int length = 0;
+    while (str[length] != '\0') length++;
+
+    int start = 0, end = length - 1;
+    while (start < end) {
+        char temp = str[start];
+        str[start] = str[end];
+        str[end] = temp;
+        start++;
+        end--;
+    }
+}
+
+int main() {
+    char str[100];
+    cout << "Enter a string: ";
+    cin.getline(str, 100);
+
+    reverseString(str);
+    cout << "Reversed string: " << str << endl;
+
+    return 0;
+}
+
+
+//Delete all vowels from the string
+
+#include <iostream>
+using namespace std;
+
+bool isVowel(char ch) {
+    ch = tolower(ch);
+    return (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u');
+}
+
+void deleteVowels(char str[]) {
+    int i = 0, j = 0;
+    while (str[i] != '\0') {
+        if (!isVowel(str[i])) {
+            str[j] = str[i];
+            j++;
+        }
+        i++;
+    }
+    str[j] = '\0'; // null terminate
+}
+
+int main() {
+    char str[100];
+    cout << "Enter a string: ";
+    cin.getline(str, 100);
+
+    deleteVowels(str);
+    cout << "String after deleting vowels: " << str << endl;
+
+    return 0;
+}
+
+ //Sort strings in alphabetical order (sorting multiple strings)
+
+#include <iostream>
+#include <cstring> // for strcmp and strcpy
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Enter number of strings: ";
+    cin >> n;
+    cin.ignore(); // to consume newline after number input
+
+    char arr[50][100]; // max 50 strings, each max length 99
+    cout << "Enter strings:\n";
+    for (int i = 0; i < n; i++) {
+        cin.getline(arr[i], 100);
+    }
+
+    // Bubble sort
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (strcmp(arr[j], arr[j + 1]) > 0) {
+                char temp[100];
+                strcpy(temp, arr[j]);
+                strcpy(arr[j], arr[j + 1]);
+                strcpy(arr[j + 1], temp);
+            }
+        }
+    }
+
+    cout << "Strings in alphabetical order:\n";
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << endl;
+    }
+
+    return 0;
+}
+
+//Convert uppercase character to lowercase
+
+#include <iostream>
+using namespace std;
+
+char toLowercase(char ch) {
+    if (ch >= 'A' && ch <= 'Z') {
+        return ch + ('a' - 'A');
+    }
+    return ch;
+}
+
+int main() {
+    char ch;
+    cout << "Enter a character: ";
+    cin >> ch;
+
+    char lower = toLowercase(ch);
+    cout << "Lowercase character: " << lower << endl;
+
+    return 0;
+}
+
+
+
+
