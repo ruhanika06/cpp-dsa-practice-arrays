@@ -7,6 +7,7 @@ int countInversions(int arr[], int n) {//o(n^2)-brute force approach
         for (int j = i + 1; j < n; j++) {
             if (arr[i] > arr[j]) {
                 inv_count++;
+                cout<<inv_count<<". "<<arr[i]<<","<<arr[j]<<endl;
             }
         }
     }
